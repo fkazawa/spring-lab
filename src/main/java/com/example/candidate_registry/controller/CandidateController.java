@@ -24,7 +24,7 @@ public class CandidateController {
             @RequestParam(required = false) String origin,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "external_ref") String sort,
+            @RequestParam(defaultValue = "externalRef") String sort,
             @RequestParam(defaultValue = "asc") String dir,
             Model model) {
 
