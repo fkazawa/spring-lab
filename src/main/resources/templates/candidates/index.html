@@ -113,58 +113,62 @@
         </div>
     </div>
 
-    <div class="card">
-        <div class="card-content">
-            <div class="table-title">
-                <span class="card-title">Candidates</span>
-                <span th:text="${candidates.totalElements} + ' records'"></span>
+    <div class="row">
+        <div class="col s12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="table-title">
+                        <span class="card-title">Candidates</span>
+                        <span th:text="${candidates.totalElements} + ' records'"></span>
+                    </div>
+                    <div class="responsive-table">
+                        <table class="highlight">
+                            <thead>
+                            <tr>
+                                <th><a class="teal-text text-darken-1" th:href="@{|/candidates?sort=externalRef|}">external_ref</a></th>
+                                <th><a class="teal-text text-darken-1" th:href="@{|/candidates?sort=name|}">name</a></th>
+                                <th><a class="teal-text text-darken-1" th:href="@{|/candidates?sort=age|}">age</a></th>
+                                <th>nationality</th>
+                                <th>origin</th>
+                                <th>notes</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="c : ${candidates.content}">
+                                <td th:text="${c.externalRef}"></td>
+                                <td th:text="${c.name}"></td>
+                                <td th:text="${c.age}"></td>
+                                <td th:text="${c.nationality}"></td>
+                                <td th:text="${c.origin}"></td>
+                                <td th:text="${c.notes}"></td>
+                            </tr>
+                            <tr th:if="${candidates.empty}">
+                                <td colspan="6" class="center-align grey-text text-darken-1">No candidates found.</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-action pagination-wrapper">
+                    <ul class="pagination">
+                        <li th:classappend="${candidates.first} ? ' disabled'">
+                            <a th:href="@{|/candidates?page=${candidates.number-1}|}" class="waves-effect">
+                                <i class="material-icons">chevron_left</i>
+                            </a>
+                        </li>
+                        <li class="disabled">
+                            <a href="#!">
+                                <span th:text="${candidates.number + 1} + ' / ' + ${candidates.totalPages == 0 ? 1 : candidates.totalPages}"></span>
+                            </a>
+                        </li>
+                        <li th:classappend="${candidates.last} ? ' disabled'">
+                            <a th:href="@{|/candidates?page=${candidates.number+1}|}" class="waves-effect">
+                                <i class="material-icons">chevron_right</i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div class="responsive-table">
-                <table class="highlight">
-                    <thead>
-                    <tr>
-                        <th><a class="teal-text text-darken-1" th:href="@{|/candidates?sort=externalRef|}">external_ref</a></th>
-                        <th><a class="teal-text text-darken-1" th:href="@{|/candidates?sort=name|}">name</a></th>
-                        <th><a class="teal-text text-darken-1" th:href="@{|/candidates?sort=age|}">age</a></th>
-                        <th>nationality</th>
-                        <th>origin</th>
-                        <th>notes</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="c : ${candidates.content}">
-                        <td th:text="${c.externalRef}"></td>
-                        <td th:text="${c.name}"></td>
-                        <td th:text="${c.age}"></td>
-                        <td th:text="${c.nationality}"></td>
-                        <td th:text="${c.origin}"></td>
-                        <td th:text="${c.notes}"></td>
-                    </tr>
-                    <tr th:if="${candidates.empty}">
-                        <td colspan="6" class="center-align grey-text text-darken-1">No candidates found.</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="card-action pagination-wrapper">
-            <ul class="pagination">
-                <li th:classappend="${candidates.first} ? ' disabled'">
-                    <a th:href="@{|/candidates?page=${candidates.number-1}|}" class="waves-effect">
-                        <i class="material-icons">chevron_left</i>
-                    </a>
-                </li>
-                <li class="disabled">
-                    <a href="#!">
-                        <span th:text="${candidates.number + 1} + ' / ' + ${candidates.totalPages == 0 ? 1 : candidates.totalPages}"></span>
-                    </a>
-                </li>
-                <li th:classappend="${candidates.last} ? ' disabled'">
-                    <a th:href="@{|/candidates?page=${candidates.number+1}|}" class="waves-effect">
-                        <i class="material-icons">chevron_right</i>
-                    </a>
-                </li>
-            </ul>
         </div>
     </div>
 </div>
