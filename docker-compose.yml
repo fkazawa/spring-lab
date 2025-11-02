@@ -1,0 +1,27 @@
+services:
+  db:
+    image: mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: candidate_registry
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping","-u","root","-proot"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - db_data:/var/lib/mysql
+volumes:
+  db_data: {}
+
+# 起動手順:
+# 1) docker compose up -d
+# 2) 環境変数設定例:
+#    SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/candidate_registry?useSSL=false&allowPublicKeyRetrieval=true
+#    SPRING_DATASOURCE_USERNAME=user
+#    SPRING_DATASOURCE_PASSWORD=pass
+# 3) ./mvnw spring-boot:run

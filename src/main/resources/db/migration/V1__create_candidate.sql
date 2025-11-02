@@ -1,0 +1,12 @@
+CREATE TABLE candidate (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  age INT NULL,
+  nationality VARCHAR(50),
+  origin VARCHAR(100),
+  notes TEXT,
+  external_ref VARCHAR(64),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT uq_candidate_extref UNIQUE (external_ref)
+);
