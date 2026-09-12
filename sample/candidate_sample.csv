@@ -1,1 +1,4 @@
 external_ref,name,age,nationality,origin,notes
+CND-001,John Doe,28,USA,New York,Transferred from another branch
+CND-002,Jane Smith,31,Canada,Toronto,Has management experience
+CND-003,Kai Lin,24,Japan,Osaka,Excellent adaptability

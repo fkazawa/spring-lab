@@ -51,7 +51,6 @@ public class CandidateService {
         if (file == null)
             throw new IllegalArgumentException("file is required");
         if (file.getSize() > maxFileSize) {
-            CsvUploadResult err = new CsvUploadResult();
             throw new FileSizeLimitExceededException("FILE_LIMIT", "File too large (max 5MB).");
         }
 
@@ -152,7 +151,10 @@ public class CandidateService {
             // process rows
             for (int i = 0; i < records.size(); i++) {
                 CSVRecord record = records.get(i);
-                int rowNumber = (int) record.getRecordNumber() + 0; // parser already uses 1-based after header
+                // getRecordNumber() is 1-based and excludes the header row, so +1 converts it
+                // to the file line number (header occupies line 1), matching the DUP_IN_FILE
+                // numbering below (i + 2).
+                int rowNumber = (int) record.getRecordNumber() + 1;
                 String externalRefRaw = record.isMapped("external_ref") ? record.get("external_ref") : "";
                 String externalRef = normalize(externalRefRaw);
                 String name = record.isMapped("name") ? normalize(record.get("name")) : null;
@@ -299,7 +301,24 @@ public class CandidateService {
     }
 
     public File getErrorReportFile(String filename) {
-        File f = new File(errorReportDir, filename);
+        if (filename == null)
+            return null;
+        // reject any filename containing path separators (e.g. "../../etc/passwd")
+        String baseName = new File(filename).getName();
+        if (!baseName.equals(filename))
+            return null;
+
+        File dir = new File(errorReportDir);
+        File f = new File(dir, baseName);
+        try {
+            String canonicalDir = dir.getCanonicalPath();
+            String canonicalFile = f.getCanonicalPath();
+            if (!canonicalFile.startsWith(canonicalDir + File.separator))
+                return null;
+        } catch (IOException ex) {
+            return null;
+        }
+
         if (f.exists())
             return f;
         return null;
